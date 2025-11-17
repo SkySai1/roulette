@@ -1,0 +1,73 @@
+.roulette {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.roulette__wheel {
+  --wheel-size: clamp(260px, 60vw, 360px);
+  position: relative;
+  width: var(--wheel-size);
+  height: var(--wheel-size);
+  border-radius: 50%;
+  border: 12px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4), 0 20px 35px rgba(0, 0, 0, 0.35);
+  transition: transform 4.5s cubic-bezier(0.19, 1, 0.22, 1);
+  overflow: hidden;
+}
+
+.roulette__wheel::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.roulette__label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  transform: rotate(calc(var(--item-index) * 360deg / var(--item-count))) translate(-50%, -50%)
+    translateY(calc(var(--wheel-size) / -2 + 32px));
+  width: 140px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.roulette__label span {
+  display: inline-flex;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  background-color: rgba(14, 17, 23, 0.75);
+  color: #fff;
+  transform: rotate(calc(-1 * var(--item-index) * 360deg / var(--item-count)));
+}
+
+.roulette__pointer {
+  position: absolute;
+  top: -24px;
+  width: 0;
+  height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-bottom: 26px solid #ffed66;
+  z-index: 10;
+}
+
+.roulette__center {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff, #d1d5db);
+  border: 3px solid rgba(0, 0, 0, 0.25);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: inset 0 6px 10px rgba(0, 0, 0, 0.4);
+}
