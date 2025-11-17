@@ -54,6 +54,19 @@ export default function App() {
     setParticipantInput('');
   };
 
+  const handleDeleteOption = (id) => {
+    setOptions((prev) => prev.filter((option) => option.id !== id));
+  };
+
+  const handleDeleteParticipant = (id) => {
+    setParticipants((prev) => prev.filter((participant) => participant.id !== id));
+  };
+
+  const handleClearHistory = () => {
+    setResults([]);
+    setRotation(0);
+  };
+
   const handleSpin = () => {
     if (isSpinning || options.length === 0 || participants.length === 0) {
       return;
@@ -160,8 +173,18 @@ export default function App() {
           <ul className="list">
             {options.map((option) => (
               <li key={option.id} className="list__item">
-                <span className="list__dot" style={{ backgroundColor: option.color }} />
-                {option.label}
+                <div className="list__content">
+                  <span className="list__dot" style={{ backgroundColor: option.color }} />
+                  {option.label}
+                </div>
+                <button
+                  type="button"
+                  className="list__remove"
+                  onClick={() => handleDeleteOption(option.id)}
+                  aria-label={`Удалить вариант ${option.label}`}
+                >
+                  ×
+                </button>
               </li>
             ))}
             {!options.length && <li className="muted">Список пуст</li>}
@@ -182,8 +205,18 @@ export default function App() {
           <ul className="list">
             {participants.map((participant) => (
               <li key={participant.id} className="list__item">
-                <span className="list__dot list__dot--participant" />
-                {participant.label}
+                <div className="list__content">
+                  <span className="list__dot list__dot--participant" />
+                  {participant.label}
+                </div>
+                <button
+                  type="button"
+                  className="list__remove"
+                  onClick={() => handleDeleteParticipant(participant.id)}
+                  aria-label={`Удалить участника ${participant.label}`}
+                >
+                  ×
+                </button>
               </li>
             ))}
             {!participants.length && <li className="muted">Нет свободных участников</li>}
@@ -192,7 +225,12 @@ export default function App() {
       </div>
 
       <section className="history">
-        <h2>История распределений</h2>
+        <div className="history__header">
+          <h2>История распределений</h2>
+          <button type="button" className="button--ghost" onClick={handleClearHistory} disabled={!results.length}>
+            Очистить
+          </button>
+        </div>
         {results.length === 0 ? (
           <p className="muted">Здесь будут появляться результаты последних 10 вращений.</p>
         ) : (
